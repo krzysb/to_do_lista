@@ -40,3 +40,18 @@
   text-decoration: line-through;
   color: rgb(224, 221, 221);
 }
+.primary-color {
+  background-color: #5300e8;
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: #5300e8 !important;
+  border-color: #5300e8 !important;
+}
+.btn-primary:hover {
+  background-color: #6002ee !important;
+  border-color: #6002ee !important;
+}

@@ -48,13 +48,16 @@ export const ToDoWrapper = () => {
     });
     setTasks(updatedTask);
   };
+  const deleteAll = () => {
+    setTasks([]);
+  };
 
   return (
     <div className="container my-2">
       <div className="row justify-content-center">
-        <div className={`${darkMode ? "bg-dark" : "bg-light"} col-sm-6 m-4 py-2 rounded `}>
+        <div className={`${darkMode ? "bg-dark" : "bg-light"} col-sm-6 m-4 py-4 rounded `}>
           <div className="d-flex justify-content-between align-items-center ">
-            <h1 className={darkMode ? "text-light" : "text-dark"}>Lista zadań</h1>
+            <h1 className={`${darkMode ? "text-light" : "text-dark"} py-1`}>Lista zadań</h1>
             {!darkMode ? (
               <FontAwesomeIcon icon={faMoon} size="2x" style={{ cursor: "pointer" }} color="gold" onClick={() => setDarkMode((value) => (value = !value))} />
             ) : (
@@ -63,7 +66,19 @@ export const ToDoWrapper = () => {
           </div>
 
           <Form addTask={addTask} />
-          {tasks.map((task, i) => (task.isEditing ? <EditForm task={task} updateTask={updateTask} /> : <Task task={task} key={task.id} toggleCompleted={toggleCompleted} deleteTask={deleteTask} editTask={editTask} darkMode={darkMode} />))}
+          {tasks.length == 0 ? (
+            <h3 className={`py-5 ${darkMode ? "text-light" : "text-dark"}`}>Brak zadań</h3>
+          ) : (
+            <div className="task-list">
+              <div className={`d-flex justify-content-between ${darkMode ? "text-light" : "text-dark"}`}>
+                <span>Aktualne zadania</span>
+                <span onClick={deleteAll} style={{ cursor: "pointer" }}>
+                  Wyczyść zadania
+                </span>
+              </div>
+              {tasks.map((task, i) => (task.isEditing ? <EditForm task={task} updateTask={updateTask} /> : <Task task={task} key={task.id} toggleCompleted={toggleCompleted} deleteTask={deleteTask} editTask={editTask} darkMode={darkMode} />))}
+            </div>
+          )}
         </div>
       </div>
     </div>
