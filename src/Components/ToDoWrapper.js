@@ -3,8 +3,11 @@ import { Form } from "./Form";
 import { Task } from "./Task";
 import { v4 as uuid } from "uuid";
 import { EditForm } from "./EditForm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 export const ToDoWrapper = () => {
   const [tasks, setTasks] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
   const addTask = (task) => {
     //dodajmey zadanie
     setTasks([...tasks, { id: uuid(), task: task, completed: false, isEditing: false }]);
@@ -47,12 +50,20 @@ export const ToDoWrapper = () => {
   };
 
   return (
-    <div className="container m-4">
+    <div className="container my-2">
       <div className="row justify-content-center">
-        <div className="col-sm-6 m-4 p-4 bg-light">
-          <h1>Lista zadań</h1>
+        <div className={`${darkMode ? "bg-dark" : "bg-light"} col-sm-6 m-4 py-2 rounded `}>
+          <div className="d-flex justify-content-between align-items-center ">
+            <h1 className={darkMode ? "text-light" : "text-dark"}>Lista zadań</h1>
+            {!darkMode ? (
+              <FontAwesomeIcon icon={faMoon} size="2x" style={{ cursor: "pointer" }} color="gold" onClick={() => setDarkMode((value) => (value = !value))} />
+            ) : (
+              <FontAwesomeIcon icon={faSun} size="2x" style={{ cursor: "pointer" }} color="gold" onClick={() => setDarkMode((value) => (value = !value))} />
+            )}
+          </div>
+
           <Form addTask={addTask} />
-          {tasks.map((task, i) => (task.isEditing ? <EditForm task={task} updateTask={updateTask} /> : <Task task={task} key={task.id} toggleCompleted={toggleCompleted} deleteTask={deleteTask} editTask={editTask} />))}
+          {tasks.map((task, i) => (task.isEditing ? <EditForm task={task} updateTask={updateTask} /> : <Task task={task} key={task.id} toggleCompleted={toggleCompleted} deleteTask={deleteTask} editTask={editTask} darkMode={darkMode} />))}
         </div>
       </div>
     </div>
